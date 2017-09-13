@@ -84,3 +84,77 @@ X = [a, b, c, d, e]
 
 Hint: Use the predefined predicates is_list/1 and append/3
 */
+
+var flattenNestedList = ['a', ['b', ['c', 'd'], 'e']];
+
+
+function transformList(nestedList) {
+	var list = [];
+	var listsTransformer = function(nestedList) {
+		for (var i = 0; i < nestedList.length; i++) {
+			if(typeof nestedList[i] === 'string'){
+				list.push(nestedList[i])
+			} else {
+				listsTransformer(nestedList[i])
+			}
+		}	
+	}
+	listsTransformer(nestedList)
+	return list;
+
+}
+
+console.log('#1.07-flatten-nested-list-transformed: ', transformList(flattenNestedList)); // return [ 'a', 'b', 'c', 'd', 'e' ]
+
+/*
+1.08 (**) Eliminate consecutive duplicates of list elements.
+If a list contains repeated elements they should be replaced with a single copy of the element. The order of the elements should not be changed.
+
+Example:
+?- compress([a,a,a,a,b,c,c,a,a,d,e,e,e,e],X).
+X = [a,b,c,a,d,e]
+*/
+
+var duplicateList = ['a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e'];
+
+function eliminateDuplicate(listDuplicated) {
+	var newList = [];
+	for (var i = 0; i < listDuplicated.length; i++) {
+		while(listDuplicated[i] == listDuplicated[i + 1]) {
+			i++;
+		}
+		newList.push(listDuplicated[i])
+	}
+	return newList;
+}
+
+console.log('#1.08-duplicate-list-eliminated: ', eliminateDuplicate(duplicateList)); // return ['a', 'b', 'c', 'a', 'd', 'e']
+
+
+/*
+1.09 (**) Pack consecutive duplicates of list elements into sublists.
+If a list contains repeated elements they should be placed in separate sublists.
+
+Example:
+?- pack([a,a,a,a,b,c,c,a,a,d,e,e,e,e],X).
+X = [[a,a,a,a],[b],[c,c],[a,a],[d],[e,e,e,e]]
+
+*/
+var toSubList = ['a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e'];
+
+function subList(listDuplicated) {
+	var newList = [];
+	for (var i = 0; i < listDuplicated.length; i++) {
+		var  currentList = []
+		currentList.push(listDuplicated[i]);
+		while(listDuplicated[i] == listDuplicated[i + 1]) {
+			currentList.push(listDuplicated[i]);
+			i++;
+		}
+		newList.push(currentList);
+	}
+	return newList;
+}
+
+console.log('#1.09-duplicate-list-to-sub-list: \n', subList(toSubList)); // return [ [ 'a', 'a', 'a', 'a' ], [ 'b' ], [ 'c', 'c' ], [ 'a', 'a' ], [ 'd' ], [ 'e', 'e', 'e', 'e' ] ]
+
