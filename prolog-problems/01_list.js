@@ -63,16 +63,16 @@ var listNotPalindrome = ['f', 'd', 'm', '5', 'a', 'x'];
 function isPalindrome(list) {
 	for (var i = 0; i < list.length / 2; i++) {
 		var reversedPos = list[list.length - (i + 1)];
-		if(reversedPos !== list[i]) {
-			return false
+		if(reversedPos === list[i]) {
+			return true
 		}
 	}
-	return true
+	return false
 } 
 
 console.log('#1.06-is-palindrome-odd-list: ', isPalindrome(listPalindromeOdd)); // return true
 console.log('#1.06-is-palindrome-even-list: ', isPalindrome(listPalindromeEven)); // return true
-console.log('#1.06-is-not-palindrome-list: ', isPalindrome(listNotPalindrome)); // return false
+console.log('#1.06-is-palindrome-list: ', isPalindrome(listNotPalindrome)); // return false
 
 /*
 1.07 (**) Flatten a nested list structure.
@@ -157,4 +157,3 @@ function subList(listDuplicated) {
 }
 
 console.log('#1.09-duplicate-list-to-sub-list: \n', subList(toSubList)); // return [ [ 'a', 'a', 'a', 'a' ], [ 'b' ], [ 'c', 'c' ], [ 'a', 'a' ], [ 'd' ], [ 'e', 'e', 'e', 'e' ] ]
-
