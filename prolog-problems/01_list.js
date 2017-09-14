@@ -156,4 +156,101 @@ function subList(listDuplicated) {
 	return newList;
 }
 
-console.log('#1.09-duplicate-list-to-sub-list: \n', subList(toSubList)); // return [ [ 'a', 'a', 'a', 'a' ], [ 'b' ], [ 'c', 'c' ], [ 'a', 'a' ], [ 'd' ], [ 'e', 'e', 'e', 'e' ] ]
+var resultSubList = subList(toSubList);
+
+console.log('#1.09-duplicate-list-to-sub-list: \n', resultSubList); // return [ [ 'a', 'a', 'a', 'a' ], [ 'b' ], [ 'c', 'c' ], [ 'a', 'a' ], [ 'd' ], [ 'e', 'e', 'e', 'e' ] ]
+
+/*
+1.10 (*) Run-length encoding of a list.
+Use the result of problem 1.09 to implement the so-called run-length encoding data compression method. Consecutive duplicates of elements are encoded as terms [N,E] where N is the number of duplicates of the element E.
+
+Example:
+?- encode([a,a,a,a,b,c,c,a,a,d,e,e,e,e],X).
+X = [[4,a],[1,b],[2,c],[2,a],[1,d],[4,e]]
+
+*/
+
+var listFromLastExerciceResult = resultSubList;
+
+function runLengthEncoding(subList) {
+	function encodeArrayElement(arrayList) {
+		var numberElement = arrayList.length;
+		var element = arrayList[0];
+		var codedArray = [numberElement, element];
+		return codedArray;
+	}
+	return subList.map(encodeArrayElement);
+}
+
+var resultEncoding = runLengthEncoding(listFromLastExerciceResult);
+
+console.log('#1.10-result-encoding: ', resultEncoding); // return [[4, 'a'], [1, 'b'], [2, 'c'], [2, 'a'], [1, 'd'], [4, 'e']]
+
+/*
+1.11 (*) Modified run-length encoding.
+Modify the result of problem 1.10 in such a way that if an element has no duplicates it is simply copied into the result list. Only elements with duplicates are transferred as [N,E] terms.
+
+Example:
+?- encode_modified([a,a,a,a,b,c,c,a,a,d,e,e,e,e],X).
+X = [[4,a],b,[2,c],[2,a],d,[4,e]]
+
+*/
+
+var previousResultEncoding = resultEncoding;
+
+function encodeArrayElement(arrayList) {
+	if(arrayList[0] == 1) {
+		return arrayList[1];
+	}
+	return arrayList;
+}
+
+var resultEncodingLight = previousResultEncoding.map(encodeArrayElement);
+
+console.log('#1.11-result-encoding-light: ', resultEncodingLight);
+
+/*
+1.12 (**) Decode a run-length encoded list.
+Given a run-length code list generated as specified in problem 1.11. Construct its uncompressed version.
+
+*/
+
+var toUncompress = resultEncodingLight;
+
+function uncompressList(compressedList) {
+	console.log('#### ', typeof compressedList[0] == 'number');
+
+	if(typeof compressedList[0] == 'number') {
+		var numberOfCopy = compressedList[0];
+		var elementToCopy = compressedList[1]
+		var elements = [];
+		for(i = 0; i < numberOfCopy; i++) {
+			elements.push(elementToCopy);
+		}
+		return elements;
+	} else {
+		return [compressedList[0]];
+	}
+
+}
+
+
+var resultUncompressed = toUncompress.map(uncompressList);
+
+console.log('#1.12-result-uncompressed: ', resultUncompressed); // return [ [ 'a', 'a', 'a', 'a' ], [ 'b' ], [ 'c', 'c' ], [ 'a', 'a' ], [ 'd' ], [ 'e', 'e', 'e', 'e' ] ]
+
+
+/*
+1.13 (**) Run-length encoding of a list (direct solution).
+Implement the so-called run-length encoding data compression method directly. I.e. don't explicitly create the sublists containing the duplicates, as in problem 1.09, but only count them. As in problem 1.11, simplify the result list by replacing the singleton terms [1,X] by X.
+
+Example:
+?- encode_direct([a,a,a,a,b,c,c,a,a,d,e,e,e,e],X).
+X = [[4,a],b,[2,c],[2,a],d,[4,e]]
+
+
+*/
+
+var listToCompress = ['a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e'];
+
+
