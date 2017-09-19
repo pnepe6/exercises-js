@@ -207,7 +207,7 @@ function encodeArrayElement(arrayList) {
 
 var resultEncodingLight = previousResultEncoding.map(encodeArrayElement);
 
-console.log('#1.11-result-encoding-light: ', resultEncodingLight);
+console.log('#1.11-result-encoding-light: ', resultEncodingLight); // return [[4, 'a'], 'b', [2, 'c'], [2, 'a'], 'd', [4, 'e']]
 
 /*
 1.12 (**) Decode a run-length encoded list.
@@ -242,7 +242,9 @@ console.log('#1.12-result-uncompressed: ', resultUncompressed); // return [ [ 'a
 
 /*
 1.13 (**) Run-length encoding of a list (direct solution).
-Implement the so-called run-length encoding data compression method directly. I.e. don't explicitly create the sublists containing the duplicates, as in problem 1.09, but only count them. As in problem 1.11, simplify the result list by replacing the singleton terms [1,X] by X.
+Implement the so-called run-length encoding data compression method directly. 
+I.e. don't explicitly create the sublists containing the duplicates, as in problem 1.09, 
+but only count them. As in problem 1.11, simplify the result list by replacing the singleton terms [1,X] by X.
 
 Example:
 ?- encode_direct([a,a,a,a,b,c,c,a,a,d,e,e,e,e],X).
@@ -254,3 +256,98 @@ X = [[4,a],b,[2,c],[2,a],d,[4,e]]
 var listToCompress = ['a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e'];
 
 
+function subListEncoding(listDuplicated) {
+	var newList = [];
+	for (var i = 0; i < listDuplicated.length; i++) {
+		var  currentList = []
+		currentList.push(listDuplicated[i]);
+		while(listDuplicated[i] == listDuplicated[i + 1]) {
+			currentList.push(listDuplicated[i]);
+			i++;
+		}
+		newList.push(currentList);
+	}
+	return newList;
+}
+
+
+function runFullEncoding(subList) {
+	function encodeArrayElement(arrayList) {
+		var numberElement = arrayList.length;
+		var element = arrayList[0];
+		var codedArray = [numberElement, element];
+		if(codedArray[0] == 1) {
+			return codedArray[1];
+		}
+		return codedArray;
+	}
+	return subList.map(encodeArrayElement);
+}
+
+var resultSubListEncoding = subListEncoding(listToCompress);
+var resultEncodingFull = runFullEncoding(resultSubListEncoding);
+
+console.log('#1.13-result-encoding-full: ', resultEncodingFull); // return [[4, 'a'], 'b', [2, 'c'], [2, 'a'], 'd', [4, 'e']]
+
+/*
+1.14 (*) Duplicate the elements of a list.
+Example:
+?- dupli([a,b,c,c,d],X).
+X = [a,a,b,b,c,c,c,c,d,d]
+
+*/
+
+var listToDuplicate = ['a', 'b', 'c', 'd'];
+
+// function duplicateArrayElement(list, number){
+
+// 	function duplicate(listElement){
+// 		var duplicatedArray = [];
+// 		console.log('#### listElement ', listElement);
+// 		for(i = 0; i < number; i++){
+// 			duplicatedArray.push(listElement);
+// 		}
+// 		console.log('#### duplicatedArray ', duplicatedArray);
+
+// 		return duplicatedArray;
+// 	}		
+
+// 	return list.map(duplicate);
+
+// }
+
+function duplicateArrayElement(list, number){
+
+	function duplicate(listElement){
+		var duplicatedArray = [];
+		for(i = 0; i < number; i++){
+			duplicatedArray.push(listElement);
+		}
+		return duplicatedArray;
+	}		
+
+	var resultDuplicate = list.map(duplicate);
+
+	function transformDuplicatedList(nestedList) {
+		var list = [];
+		var listsDuplicateTransformer = function(nestedList) {
+			for (var i = 0; i < nestedList.length; i++) {
+				if(typeof nestedList[i] === 'string'){
+					list.push(nestedList[i])
+				} else {
+					listsDuplicateTransformer(nestedList[i])
+				}
+			}	
+		}
+		listsDuplicateTransformer(nestedList)
+		return list;
+
+	}
+
+	return transformDuplicatedList(resultDuplicate);
+
+}
+
+var resultDuplicateList = duplicateArrayElement(listToDuplicate, 2);
+
+console.log('#1.14-result-duplicate: ', resultDuplicateList); // return ['a', 'a', 'b' ,'b', 'c', 'c', 'd', 'd']
