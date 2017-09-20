@@ -332,7 +332,79 @@ function duplicateArrayElement(list, number){
 }
 
 var resultDuplicateList1 = duplicateArrayElement(listToDuplicate, 2);
-var resultDuplicateList2 = duplicateArrayElement(listToDuplicate, 4);
 
 console.log('#1.14-result-duplicate-x2: ', resultDuplicateList1); // return ['a', 'a', 'b' ,'b', 'c', 'c', 'd', 'd']
-console.log('#1.14-result-duplicate-x4: ', resultDuplicateList2); // return ['a', 'a', 'a', 'a', 'b' ,'b', 'b' ,'b', 'c', 'c',  'c', 'c', 'd', 'd', 'd', 'd']
+
+
+/*
+1.15 (**) Duplicate the elements of a list a given number of times.
+Example:
+?- dupli([a,b,c],3,X).
+X = [a,a,a,b,b,b,c,c,c]
+
+What are the results of the goal:
+?- dupli(X,3,Y).
+*/
+
+var resultDuplicateList2 = duplicateArrayElement(listToDuplicate, 3); // from exercice 1.14
+
+console.log('#1.15-result-duplicate-x3: ', resultDuplicateList2); // return ['a', 'a', 'a','b', 'b' ,'b', 'c',  'c', 'c', 'd', 'd', 'd']
+
+
+/*
+1.16 (**) Drop every N'th element from a list.
+Example:
+?- drop([a,b,c,d,e,f,g,h,i,j],3,X).
+X = [a,b,d,e,g,h,j]
+*/
+
+var listToDrop = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+
+function dropElement(list, number) {
+	var i = list.length;
+	while (i--) {
+
+	  (i + 1) % number === 0 && list.splice(i, 1);
+	}
+	return list;
+}
+
+var resultDropList = dropElement(listToDrop, 3);
+
+console.log('#1.16-result-drop-list: ', resultDropList); // return [ 'a', 'b', 'd', 'e', 'g', 'h', 'j' ]
+
+
+/*
+1.17 (*) Split a list into two parts; the length of the first part is given.
+Do not use any predefined predicates.
+
+Example:
+?- split([a,b,c,d,e,f,g,h,i,k],3,L1,L2).
+L1 = [a,b,c]
+L2 = [d,e,f,g,h,i,k]
+
+*/
+
+var listToSplit = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+
+function splitList(list, number) {
+	var	list1 = [];
+	var list2 = [];
+
+	for(i=0; i < number; i++) {
+		list1.push(list[i])
+	}
+	for(j=number; j < list.length; j++) {
+		list2.push(list[j])
+	}
+	var newList = {
+		l1: list1,
+		l2: list2,
+	};
+	return newList;
+}
+
+var resultDropList = splitList(listToSplit, 3);
+
+console.log('#1.16-result-drop-list1: ', resultDropList.l1); // return [ 'a', 'b', 'c' ]
+console.log('#1.16-result-drop-list2: ', resultDropList.l2); // return [ 'd', 'e', 'f', 'g', 'h', 'i', 'j' ]
