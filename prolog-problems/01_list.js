@@ -299,23 +299,6 @@ X = [a,a,b,b,c,c,c,c,d,d]
 
 var listToDuplicate = ['a', 'b', 'c', 'd'];
 
-// function duplicateArrayElement(list, number){
-
-// 	function duplicate(listElement){
-// 		var duplicatedArray = [];
-// 		console.log('#### listElement ', listElement);
-// 		for(i = 0; i < number; i++){
-// 			duplicatedArray.push(listElement);
-// 		}
-// 		console.log('#### duplicatedArray ', duplicatedArray);
-
-// 		return duplicatedArray;
-// 	}		
-
-// 	return list.map(duplicate);
-
-// }
-
 function duplicateArrayElement(list, number){
 
 	function duplicate(listElement){
@@ -348,6 +331,8 @@ function duplicateArrayElement(list, number){
 
 }
 
-var resultDuplicateList = duplicateArrayElement(listToDuplicate, 2);
+var resultDuplicateList1 = duplicateArrayElement(listToDuplicate, 2);
+var resultDuplicateList2 = duplicateArrayElement(listToDuplicate, 4);
 
-console.log('#1.14-result-duplicate: ', resultDuplicateList); // return ['a', 'a', 'b' ,'b', 'c', 'c', 'd', 'd']
+console.log('#1.14-result-duplicate-x2: ', resultDuplicateList1); // return ['a', 'a', 'b' ,'b', 'c', 'c', 'd', 'd']
+console.log('#1.14-result-duplicate-x4: ', resultDuplicateList2); // return ['a', 'a', 'a', 'a', 'b' ,'b', 'b' ,'b', 'c', 'c',  'c', 'c', 'd', 'd', 'd', 'd']
