@@ -406,5 +406,5 @@ function splitList(list, number) {
 
 var resultDropList = splitList(listToSplit, 3);
 
-console.log('#1.16-result-drop-list1: ', resultDropList.l1); // return [ 'a', 'b', 'c' ]
-console.log('#1.16-result-drop-list2: ', resultDropList.l2); // return [ 'd', 'e', 'f', 'g', 'h', 'i', 'j' ]
+console.log('#1.17-result-drop-list1: ', resultDropList.l1); // return [ 'a', 'b', 'c' ]
+console.log('#1.17-result-drop-list2: ', resultDropList.l2); // return [ 'd', 'e', 'f', 'g', 'h', 'i', 'j' ]
