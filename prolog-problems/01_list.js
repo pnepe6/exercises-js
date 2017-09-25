@@ -1,4 +1,6 @@
-/* Exercice 1 - https://sites.google.com/site/prologsite/prolog-problems/1
+/* Started tuesday 12/09/2017 from https://sites.google.com/site/prologsite/prolog-problems/1
+
+Exercice 1
 
 A list is either empty or it is composed of a first element (head) and a tail, which is a list itself. In Prolog we represent the empty list by the atom [] and a non-empty list by a term [H|T] where H denotes the head and T denotes the tail.
 
@@ -408,3 +410,220 @@ var resultDropList = splitList(listToSplit, 3);
 
 console.log('#1.17-result-drop-list1: ', resultDropList.l1); // return [ 'a', 'b', 'c' ]
 console.log('#1.17-result-drop-list2: ', resultDropList.l2); // return [ 'd', 'e', 'f', 'g', 'h', 'i', 'j' ]
+
+/*
+1.18 (**) Extract a slice from a list.
+Given two indices, I and K, the slice is the list containing the elements between the I'th and K'th element 
+of the original list (both limits included). Start counting the elements with 1.
+
+Example:
+?- slice([a,b,c,d,e,f,g,h,i,j],3,7,L).
+ L = [c,d,e,f,g]
+*/
+
+var listToSlice = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+
+function sliceList(list, num1, num2) {
+	var	listSliced = [];
+	var valueStart= num1 - 1;
+	for(i = valueStart; i < num2; i++) {
+		listSliced.push(list[i])
+	}
+
+	return listSliced;
+}
+
+var resultSliceList = sliceList(listToSlice, 3, 7);
+
+console.log('#1.18-result-slice-list: ', resultSliceList); // return [ 'c', 'd', 'e', 'f', 'g' ]
+
+
+/*
+1.19 (**) Rotate a list N places to the left.
+Examples:
+?- rotate([a,b,c,d,e,f,g,h],3,X).
+X = [d,e,f,g,h,a,b,c]
+
+?- rotate([a,b,c,d,e,f,g,h],-2,X).
+X = [g,h,a,b,c,d,e,f]
+
+*/
+var listToRotate = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+
+function rotateList(list, num) {
+	var	listRotated = [];
+  var valueCount = null;
+  
+	if(num > 0) {
+    var valueCount = num;
+	} else {
+		var newNum = Math.abs(num);
+		var valueCount = list.length - newNum; 
+	}
+  for(i = valueCount; i < list.length; i++) {
+    listRotated.push(list[i]);
+  }
+  for(i = 0; i < valueCount; i++) {
+    listRotated.push(list[i]);
+  }
+
+	return listRotated;
+}
+
+var resultRotateList = rotateList(listToRotate, 3);
+var resultRotateList2 = rotateList(listToRotate, -2);
+
+console.log('#1.19-result-rotate-list: ', resultRotateList); // should return [ 'd', 'e', 'f', 'g', 'h', 'a', 'b', 'c' ]
+console.log('#1.19-result-rotate-list2: ', resultRotateList2); // should return [ 'g', 'h', 'a', 'b', 'c', d', 'e', 'f' ]
+
+
+/*
+1.20 (*) Remove the K'th element from a list.
+Example:
+?- remove_at(X,[a,b,c,d],2,R).
+X = b
+R = [a,c,d]
+
+*/
+var listToRemove = ['a', 'b', 'c', 'd'];
+
+function removeElement(list, num) {
+	var startValue = num - 1;
+	var removedElement = list.splice(startValue, 1);
+	var rest = list;
+	var result = {
+		element: removedElement,
+		restList: rest,
+	};
+	return result;
+}
+
+var resultRemoveElement = removeElement(listToRemove, 2);
+
+
+console.log('#1.20-result-removed-element: ', resultRemoveElement.element); // should return 'b'
+console.log('#1.20-result-list: ', resultRemoveElement.restList); // should return ['a', 'c', 'd']
+
+/*
+1.21 (*) Insert an element at a given position into a list.
+Example:
+?- insert_at(alfa,[a,b,c,d],2,L).
+L = [a,alfa,b,c,d]
+
+*/
+
+var listToAdd = ['a', 'b', 'c', 'd'];
+
+function addElement(addedElement, list, num) {
+	var startValue = num - 1;
+	list.splice(startValue, 0, addedElement);
+	return list;
+}
+
+var resultAddElement = addElement('alfa', listToAdd, 2);
+
+
+console.log('#1.21-result-added-element: ', resultAddElement); // should return [ 'a', 'alfa', 'b', 'c', 'd' ]
+
+
+/*
+1.22 (*) Create a list containing all integers within a given range.
+Example:
+?- range(4,9,L).
+L = [4,5,6,7,8,9]
+
+*/
+
+function makeRange(startInt, endInt) {
+	var range = [];
+	var posEnd = endInt + 1;
+
+	for(i = startInt; i < posEnd; i++) {
+		range.push(i);
+	}
+
+	return range;
+}
+
+var resultRange = makeRange(4, 9);
+
+
+console.log('#1.22-result-range: ', resultRange); // should return [ 4, 5, 6, 7, 8, 9 ]
+
+
+
+/*
+1.23 (**) Extract a given number of randomly selected elements from a list.
+The selected items shall be put into a result list.
+Example:
+?- rnd_select([a,b,c,d,e,f,g,h],3,L).
+L = [e,d,a]
+
+Hint: Use the built-in random number generator random/2 and the result of problem 1.20.
+
+*/
+
+var listToRandom = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+
+function makeRandomSelect(list, num) {
+	var resultList = [];
+
+	for(i = 0; i < num; i++) {
+		let randomNum = Math.floor(Math.random()*list.length);
+		resultList.push(list[randomNum]);
+	}
+	return resultList;
+}
+
+var resultRandomSelect = makeRandomSelect(listToRandom, 3);
+
+
+console.log('#1.23-result-random-select: ', resultRandomSelect); // should return an array with 3 letter only
+
+/*
+1.24 (*) Lotto: Draw N different random numbers from the set 1..M.
+The selected numbers shall be put into a result list.
+Example:
+?- lotto(6,49,L).
+L = [23,1,17,33,21,37]
+
+Hint: Combine the solutions of problems 1.22 and 1.23.
+
+*/
+
+function makeRandomRange(resultAmount, endInt) {
+
+	function makeRange(endNum) {
+		var range = [];
+		var posEnd = endNum + 1;
+
+		for(i = 0; i < posEnd; i++) {
+			range.push(i);
+		}
+
+		return range;
+	}
+
+	function makeRandomSelect(list, amount) {
+		var resultList = [];
+
+		for(i = 0; i < amount; i++) {
+			let randomNum = Math.floor(Math.random()*list.length);
+			resultList.push(list[randomNum]);
+		}
+		return resultList;
+	}
+
+	var resultRange = makeRange(endInt);
+	var resultRandomSelect = makeRandomSelect(resultRange, resultAmount);
+
+	return resultRandomSelect;
+
+}
+
+var resultRandomRange = makeRandomRange(6, 49);
+
+
+console.log('#1.24-result-random-range: ', resultRandomRange); // should return an array with range of six integer elements between 0 to 49
+
+
