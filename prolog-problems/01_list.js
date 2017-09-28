@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 /* Started tuesday 12/09/2017 from https://sites.google.com/site/prologsite/prolog-problems/1
 
 Exercice 1
@@ -684,3 +684,28 @@ var resultRandomRange = makeRandomRange(6, 49);
 console.log('#1.24-result-random-range: ', resultRandomRange); // should return an array with range of six integer elements between 0 to 49
 
 
+
+/*
+1.25 (*) Generate a random permutation of the elements of a list.
+Example:
+?- rnd_permu([a,b,c,d,e,f],L).
+L = [b,a,d,c,e,f]
+
+Hint: Use the solution of problem 1.23.
+*/
+
+var list25 = ['a', 'b', 'c', 'd', 'e', 'f'];
+
+function makeRandomPermut(list) {
+	var resultList = [];
+
+	for(i = 0; i < list.length; i++) {
+		let randomNum = Math.floor(Math.random()*list.length);
+		resultList.push(list[randomNum]);
+	}
+	return resultList;
+}
+
+var resultRandomPermut = makeRandomPermut(list25);
+
+console.log('#1.25-random permutation list: ' + JSON.stringify(list25) + ' = ', resultRandomPermut); // return last element
