@@ -684,7 +684,6 @@ var resultRandomRange = makeRandomRange(6, 49);
 console.log('#1.24-result-random-range: ', resultRandomRange); // should return an array with range of six integer elements between 0 to 49
 
 
-
 /*
 1.25 (*) Generate a random permutation of the elements of a list.
 Example:
@@ -697,13 +696,15 @@ Hint: Use the solution of problem 1.23.
 var list25 = ['a', 'b', 'c', 'd', 'e', 'f'];
 
 function makeRandomPermut(list) {
-	var resultList = [];
-
-	for(i = 0; i < list.length; i++) {
-		let randomNum = Math.floor(Math.random()*list.length);
-		resultList.push(list[randomNum]);
-	}
-	return resultList;
+    let counter = list.length;
+    var newList = list.slice(0);
+    while ((counter > 0) && (counter--)) {
+        let randomIndex = Math.floor(Math.random() * counter);
+        let actualElement = newList[counter];
+        newList[counter] = newList[randomIndex];
+        newList[randomIndex] = actualElement;
+    }
+    return newList;
 }
 
 var resultRandomPermut = makeRandomPermut(list25);
