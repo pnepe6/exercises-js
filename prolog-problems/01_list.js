@@ -710,3 +710,88 @@ function makeRandomPermut(list) {
 var resultRandomPermut = makeRandomPermut(list25);
 
 console.log('#1.25-random permutation list: ' + JSON.stringify(list25) + ' = ', resultRandomPermut); // return last element
+
+/*
+1.26 (**) Generate the combinations of K distinct objects chosen from the N elements of a list
+In how many ways can a committee of 3 be chosen from a group of 12 people? We all know that there are C(12,3) = 220 
+possibilities (C(N,K) denotes the well-known binomial coefficients). For pure mathematicians, this result may be great. 
+But we want to really generate all the possibilities (via backtracking).
+
+Example:
+?- combination(3,[a,b,c,d,e,f],L).
+L = [a,b,c] ;
+L = [a,b,d] ;
+L = [a,b,e] ;
+... 
+*/
+
+const list26 = ['a', 'b', 'c', 'd', 'e', 'f'];
+const amountSize = 3;
+
+const getRandomListOf = (list, amount) => {
+	let result = [];
+	while (result.length < amount) {
+		let random = Math.floor(Math.random() * list.length);
+		if (result.indexOf(list[random]) === -1) {
+        	result.push(list[random]);
+		}
+	}
+
+	return result;
+};
+
+console.log('#1.26-random permutation reduced case: ' + JSON.stringify(list26) + ' = \n', getRandomListOf(list26, amountSize)); 
+
+/*
+1.27 (**) Group the elements of a set into disjoint subsets.
+a) In how many ways can a group of 9 people work in 3 disjoint subgroups of 2, 3 and 4 persons? Write a predicate 
+that generates all the possibilities via backtracking.
+
+Example:
+?- group3([aldo,beat,carla,david,evi,flip,gary,hugo,ida],G1,G2,G3).
+G1 = [aldo,beat], G2 = [carla,david,evi], G3 = [flip,gary,hugo,ida]
+...
+
+*/
+
+const list27 = ['aldo', 'beat', 'carla', 'david', 'evi', 'flip', 'gary', 'hugo', 'ida'];
+
+const size1 = 2;
+const size2 = 3;
+const size3 = 4;
+
+
+const getRandomGroupOf = (list, size1, size2, size3) => {
+	let resultGroups = [];
+
+	const makeRandomList = (list) => {
+		let listToReduce = list.slice(0);
+		listToReduce.sort(function() { return 0.5 - Math.random();});
+		return listToReduce;
+	}
+
+	let randomList = makeRandomList(list);
+	let cursor;
+
+	const getGroup = (list, size) => {
+		let finalResult = [];
+		for(var i = 0; i < size; i += 1) {
+			cursor = list.shift(); 
+			finalResult.push(cursor);
+		} 	
+		return finalResult;
+	}
+
+	let group1 = getGroup(randomList, size1);
+	let group2 = getGroup(randomList, size2);
+	let group3 = getGroup(randomList, size3);
+
+	resultGroups.push(group1);
+	resultGroups.push(group2);
+	resultGroups.push(group3);
+
+ 	return resultGroups;
+}
+
+
+console.log('#1.27-: get random group of ' + JSON.stringify(list27) + ' with 3 list of 2, then 3 then 4 elements = \n', getRandomGroupOf(list27, size1, size2, size3)); 
