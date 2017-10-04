@@ -795,3 +795,84 @@ const getRandomGroupOf = (list, size1, size2, size3) => {
 
 
 console.log('#1.27-: get random group of ' + JSON.stringify(list27) + ' with 3 list of 2, then 3 then 4 elements = \n', getRandomGroupOf(list27, size1, size2, size3)); 
+
+/*
+1.27 (**) Group the elements of a set into disjoint subsets.
+
+b) Generalize the above predicate in a way that we can specify a newList of group sizes and the predicate will return a 
+newList of groups.
+
+Example:
+?- group([aldo,beat,carla,david,evi,flip,gary,hugo,ida],[2,2,5],Gs).
+Gs = [[aldo,beat],[carla,david],[evi,flip,gary,hugo,ida]]
+...
+
+Note that we do not want permutations of the group members; i.e. [[aldo,beat],...] is the same solution as [[beat,aldo],...]. 
+However, we make a difference between [[aldo,beat],[carla,david],...] and [[carla,david],[aldo,beat],...].
+*/
+const list27b = ['aldo', 'beat', 'carla', 'david', 'evi', 'flip', 'gary', 'hugo', 'ida'];
+
+const sizeGroup1 = 2;
+const sizeGroup2 = 3;
+const sizeGroupC = 4;
+
+
+const getRandomGroupOf = (list, size1, size2, size3) => {
+	let resultGroups = [];
+
+	const makeRandomList = (list) => {
+		let listToReduce = list.slice(0);
+		listToReduce.sort(function() { return 0.5 - Math.random();});
+		return listToReduce;
+	}
+
+	let randomList = makeRandomList(list);
+
+	const makePossibilities = (randomList, originalList, sizeA, sizeB, sizeC) => {
+		let counter = 0;
+		let iteration = originalList.length - 1;
+		let cursor;
+		let currentGroupA = [];
+		let currentGroupB = [];
+		let currentGroupC = [];
+
+		while((counter < iteration) && (counter += 1) && (cursor = randomList.shift())){
+			for(let i = 0; i < randomList.length; i++) {
+				let groupBList = [];
+
+				currentGroupA.push([cursor, randomList[i]]);
+			}
+		}
+
+		for(let i = 0; i < currentGroupA.length; i += 1) {
+			let groupBList = [];
+			let groupCList;
+			let sizeGroupC = size3 - 1; // cause the array is shifted at each iteration
+			originalList.forEach(function(item) {
+				if((currentGroupA[i].indexOf(item) === -1) && (currentGroupB.indexOf(item) === -1)) {
+					groupBList.push(item);
+				}
+			})
+			groupCList = groupBList.splice(sizeGroupC);
+			currentGroupB.push(groupBList);
+			currentGroupC.push(groupCList);
+		}
+		return [currentGroupA, currentGroupB, currentGroupC]
+	}
+ 	
+ 	let resultMakePossibilities = makePossibilities(randomList, list, size1, size2, size3);
+
+ 	const getResult = (list) => {
+ 		let resultList = [];
+		for(let j = 0; j < list[0].length; j += 1) {
+ 			resultList.push([list[0][j], list[1][j], list[2][j]]);
+ 		}
+ 		return resultList;
+	}
+
+	var result = getResult(resultMakePossibilities);
+ 	return result;
+}
+
+console.log('#1.27b-: get random group of ' + JSON.stringify(list27b) + ' with 3 list of 2, then 3 then 4 elements = \n', getRandomGroupOf(list27b, sizeGroup1, sizeGroup2, sizeGroupC)); 
+
