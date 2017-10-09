@@ -778,30 +778,24 @@ const makeGroup = (list, size1, size2) => {
 
 	const listTreatment = (list) => {
 		let currentResult = [];
-		let	list1 = [];
-		let list2 = [];
-		let list3 = [];
+		let	finalResult = [[], [], []];
+		let count = 1;
 
 		for(let i = 0; i < list.length; i += 1) {
 			currentResult.push(list[i]);
 		}
 		for(let i=0; i < size1; i++) {
-			list1.push(list[i])
+			finalResult[0].push(list[i])
 		}
 		for(let i=size1; i < (size1 + size2); i++) {
-			list2.push(list[i])
+			finalResult[1].push(list[i])
 		}
 		for(let i=(size1 + size2); i < list.length; i++) {
-			list3.push(list[i])
+			finalResult[2].push(list[i])
 		}
-		result.push([list1, list2, list3]);
-		arrayRotate(list, 1);
-	}
-
-	const arrayRotate = (arr, count) => {
-	  count -= arr.length * Math.floor(count / arr.length)
-	  arr.push.apply(arr, arr.splice(0, count))
-	  return arr
+		result.push(finalResult);
+		count -= list.length * Math.floor(count / list.length)
+	  	list.push.apply(list, list.splice(0, count))
 	}
 
 	for(let i = 0; i < list.length; i += 1) {
