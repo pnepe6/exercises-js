@@ -806,3 +806,37 @@ const makeGroup = (list, size1, size2) => {
 }
 console.log('#1.27b-test1: get random group of ' + JSON.stringify(list27bTest1) + ' with 3 list of 2, then 3 then 4 elements = \n', makeGroup(list27bTest1, size1Test1, size2Test1)); 
 console.log('#1.27b-test2: get random group of ' + JSON.stringify(list27bTest2) + ' with 3 list of 2, then 3 then 4 elements = \n', makeGroup(list27bTest2, size1Test2, size2Test2)); 
+
+
+/*
+1.28 (**) Sorting a list of lists according to length of sublists
+a) We suppose that a list (InList) contains elements that are lists themselves. 
+The objective is to sort the elements of InList according to their length. E.g. short 
+lists first, longer lists later, or vice versa.
+
+Example:
+?- lsort([[a,b,c],[d,e],[f,g,h],[d,e],[i,j,k,l],[m,n],[o]],L).
+L = [[o], [d, e], [d, e], [m, n], [a, b, c], [f, g, h], [i, j, k, l]]
+
+*/
+
+const list28a = [['a', 'b', 'c'],['d', 'e'],['f', 'g', 'h'],['d', 'e'],['i', 'j', 'k', 'l'],['m', 'n'],['o']];
+
+
+const threatList = (list) => {
+	let newList = list.slice(0);
+	let result = [];
+
+	newList.sort(function(arg, next) {
+		return next.length - arg.length;
+	})
+
+	for (let i = 0;i < newList.length; i++) {
+		if(((i + 1) != undefined) && (JSON.stringify(newList[i]) != JSON.stringify(newList[i + 1]))) {
+			result.push(newList[i])
+		}
+	}
+	return result;
+}
+
+console.log('#1.28a: triate list ' + JSON.stringify(list28a) + ' according to length = \n', threatList(list28a)); 
