@@ -744,60 +744,13 @@ console.log('#1.26-random permutation reduced case: ' + JSON.stringify(list26) +
 
 /*
 1.27 (**) Group the elements of a set into disjoint subsets.
-a) In how many ways can a group of 9 people work in 3 disjoint subgroups of 2, 3 and 4 persons? Write a predicate 
-that generates all the possibilities via backtracking.
+a) In how many ways can a group of 9 people work in 3 disjoint subgroups of 2, 3 and 4 persons? 
+Write a predicate that generates all the possibilities via backtracking.
 
 Example:
 ?- group3([aldo,beat,carla,david,evi,flip,gary,hugo,ida],G1,G2,G3).
 G1 = [aldo,beat], G2 = [carla,david,evi], G3 = [flip,gary,hugo,ida]
 ...
-
-*/
-
-const list27 = ['aldo', 'beat', 'carla', 'david', 'evi', 'flip', 'gary', 'hugo', 'ida'];
-
-const size1 = 2;
-const size2 = 3;
-const size3 = 4;
-
-
-const getRandomGroupOf = (list, size1, size2, size3) => {
-	let resultGroups = [];
-
-	const makeRandomList = (list) => {
-		let listToReduce = list.slice(0);
-		listToReduce.sort(function() { return 0.5 - Math.random();});
-		return listToReduce;
-	}
-
-	let randomList = makeRandomList(list);
-	let cursor;
-
-	const getGroup = (list, size) => {
-		let finalResult = [];
-		for(var i = 0; i < size; i += 1) {
-			cursor = list.shift(); 
-			finalResult.push(cursor);
-		} 	
-		return finalResult;
-	}
-
-	let group1 = getGroup(randomList, size1);
-	let group2 = getGroup(randomList, size2);
-	let group3 = getGroup(randomList, size3);
-
-	resultGroups.push(group1);
-	resultGroups.push(group2);
-	resultGroups.push(group3);
-
- 	return resultGroups;
-}
-
-
-console.log('#1.27-: get random group of ' + JSON.stringify(list27) + ' with 3 list of 2, then 3 then 4 elements = \n', getRandomGroupOf(list27, size1, size2, size3)); 
-
-/*
-1.27b (**) Group the elements of a set into disjoint subsets.
 
 b) Generalize the above predicate in a way that we can specify a newList of group sizes and the predicate will return a 
 newList of groups.
@@ -810,11 +763,64 @@ Gs = [[aldo,beat],[carla,david],[evi,flip,gary,hugo,ida]]
 Note that we do not want permutations of the group members; i.e. [[aldo,beat],...] is the same solution as [[beat,aldo],...]. 
 However, we make a difference between [[aldo,beat],[carla,david],...] and [[carla,david],[aldo,beat],...].
 */
-const list27b = ['aldo', 'beat', 'carla', 'david', 'evi', 'flip', 'gary', 'hugo', 'ida'];
+const list27bTest1 = ['aldo', 'beat', 'carla'];
+const list27bTest2 = ['aldo', 'beat', 'carla', 'david', 'evi', 'flip', 'gary', 'hugo', 'ida'];
 
-const sizeGroup1 = 2;
-const sizeGroup2 = 3;
+const size1Test1 = 1;
+const size2Test1 = 2;
 
+const size1Test2 = 2;
+const size2Test2 = 3;
+
+const makeGroup = (list, size1, size2) => {
+	let newList = list.slice(0);
+	let result = [];
+
+	const listTreatment = (list) => {
+		let currentResult = [];
+		let	finalResult = [[], [], []];
+		let count = 1;
+
+		for(let i = 0; i < list.length; i += 1) {
+			currentResult.push(list[i]);
+		}
+		for(let i=0; i < size1; i++) {
+			finalResult[0].push(list[i])
+		}
+		for(let i=size1; i < (size1 + size2); i++) {
+			finalResult[1].push(list[i])
+		}
+		for(let i=(size1 + size2); i < list.length; i++) {
+			finalResult[2].push(list[i])
+		}
+		result.push(finalResult);
+		count -= list.length * Math.floor(count / list.length)
+	  	list.push.apply(list, list.splice(0, count))
+	}
+
+	for(let i = 0; i < list.length; i += 1) {
+		listTreatment(newList);
+	}
+
+	return result;
+}
+console.log('#1.27b-test1: get random group of ' + JSON.stringify(list27bTest1) + ' with 3 list of 2, then 3 then 4 elements = \n', makeGroup(list27bTest1, size1Test1, size2Test1)); 
+console.log('#1.27b-test2: get random group of ' + JSON.stringify(list27bTest2) + ' with 3 list of 2, then 3 then 4 elements = \n', makeGroup(list27bTest2, size1Test2, size2Test2)); 
+
+
+/*
+1.28 (**) Sorting a list of lists according to length of sublists
+a) We suppose that a list (InList) contains elements that are lists themselves. 
+The objective is to sort the elements of InList according to their length. E.g. short 
+lists first, longer lists later, or vice versa.
+
+Example:
+?- lsort([[a,b,c],[d,e],[f,g,h],[d,e],[i,j,k,l],[m,n],[o]],L).
+L = [[o], [d, e], [d, e], [m, n], [a, b, c], [f, g, h], [i, j, k, l]]
+
+*/
+
+<<<<<<< HEAD
 const getRandomGroup = (list, size1, size2) => {
 	let sizeG1 = size1;
 	let sizeG2 = size2 + size1;
@@ -822,39 +828,28 @@ const getRandomGroup = (list, size1, size2) => {
 	let possibilities = [];
 	let intermResult = [];
 	let finalResult= [];
+=======
+const list28a = [['a', 'b', 'c'],['d', 'e'],['f', 'g', 'h'],['d', 'e'],['i', 'j', 'k', 'l'],['m', 'n'],['o']];
+>>>>>>> 92a3cf93c85540ecec5b36ac11413e5818ed63ac
 
-	let iteration = list.length -1;
-	let counter = 0;
-	let cursor;
 
-	for(let j = 0; j < iteration; j += 1) {
-		cursor = listToReduce.shift();
-		for(let i = 0; i < listToReduce.length; i += 1) {
-			possibilities.push([cursor,listToReduce[i]]);
+const threatList = (list) => {
+	let newList = list.slice(0);
+	let result = [];
+
+	newList.sort(function(arg, next) {
+		return next.length - arg.length;
+	})
+
+	for (let i = 0;i < newList.length; i++) {
+		if(((i + 1) != undefined) && (JSON.stringify(newList[i]) != JSON.stringify(newList[i + 1]))) {
+			result.push(newList[i])
 		}
 	}
-
-	for(let i = 0; i < possibilities.length; i += 1) {
-		list.forEach(function(item, index) {
-			if(possibilities[i].indexOf(item) === -1) {
-				possibilities[i].push(item);
-			}
-		})
-
-		intermResult.push([possibilities[i].slice(0, sizeG1), possibilities[i].slice(sizeG1, sizeG2), possibilities[i].slice(sizeG2)]);
-	}
-
-	for(let j = 0; j < intermResult.length; j += 1) {
-		let next = j + 1;
-		console.log(intermResult[j][0].length) 
-		if((intermResult[next] != undefined) && (intermResult[j][0].indexOf(intermResult[next][0][0]) === -1)) {
-			finalResult.push(intermResult[j]);
-		}
-	}
-	
- 	return finalResult;
+	return result;
 }
 
+<<<<<<< HEAD
 
 let resultRandomGroup = getRandomGroupOf(list27b, sizeGroup1, sizeGroup2);
 
@@ -893,3 +888,6 @@ const threatList = (list) => {
 }
 
 console.log('#1.28-: sort list according to length of ' + JSON.stringify(list28) + ' without duplicate = \n', threatList(list28)); 
+=======
+console.log('#1.28a: triate list ' + JSON.stringify(list28a) + ' according to length = \n', threatList(list28a)); 
+>>>>>>> 92a3cf93c85540ecec5b36ac11413e5818ed63ac
