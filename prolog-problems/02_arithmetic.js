@@ -147,15 +147,38 @@ Example:
 ?- goldbach(28, L).
 L = [5,23]
 */
-// const goldbachNum = 28;
+const goldbachNum = 28;
 
-// const getGoldbachConjecture = (number) => {
-//   for(let i = 2; i < number; i++) {
-//     if(number % i === 0) {
-//     	return false;
-//     }
-//   	return number !== 1;
-//   }
-// }
+const getGoldbachConjecture = (number) => {
+  let numList =[];
+  let result = [];
+  let firstResult = [];
 
-// console.log('#2.05-get-goldbach-conjecture of: ' + JSON.stringify(goldbachNum) + ' = ', getGoldbachConjecture(goldbachNum)); // return [ [ 2, 5, 31 ], [ 311 ], [ 2, 2, 2, 3, 13 ], [ 313 ], [ 2, 157 ], [ 3, 3, 5, 7 ] ]
+  for(let i = 1; i < number; i += 1) {
+    if(isPrime(i) === true) {
+        numList.push(i);
+    }
+  }
+
+  for(let i = 0; i < numList.length; i += 1) {
+      for(let j = numList.length; j > 1; j -= 1) {
+        if(typeof numList[j] === "number"){
+            if(((numList[i] + numList[j]) === number) && (result.indexOf(numList[i]) === -1) && (result.indexOf(numList[j]) === -1)) {
+                result.push(numList[i]);
+                result.push(numList[j]);
+            }   
+        }
+
+      }
+  }
+  firstResult = [result[0], result[1]];
+  return firstResult;
+}
+
+const isPrime = (number) => {
+  for(let i = 2; i < number; i++)
+    if(number % i === 0) return false;
+  return number !== 1;
+}
+
+console.log('#2.05-get-goldbach-conjecture of: ' + JSON.stringify(goldbachNum) + ' = ', getGoldbachConjecture(goldbachNum)); // return [ [ 2, 5, 31 ], [ 311 ], [ 2, 2, 2, 3, 13 ], [ 313 ], [ 2, 157 ], [ 3, 3, 5, 7 ] ]
