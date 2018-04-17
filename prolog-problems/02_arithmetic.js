@@ -175,10 +175,4 @@ const getGoldbachConjecture = (number) => {
   return firstResult;
 }
 
-const isPrime = (number) => {
-  for(let i = 2; i < number; i++)
-    if(number % i === 0) return false;
-  return number !== 1;
-}
-
 console.log('#2.05-get-goldbach-conjecture of: ' + JSON.stringify(goldbachNum) + ' = ', getGoldbachConjecture(goldbachNum)); // return [ [ 2, 5, 31 ], [ 311 ], [ 2, 2, 2, 3, 13 ], [ 313 ], [ 2, 157 ], [ 3, 3, 5, 7 ] ]
